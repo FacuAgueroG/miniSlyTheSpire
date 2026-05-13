@@ -90,7 +90,6 @@ public class BattleManager : MonoBehaviour {
         player.SetTurnVisual(false);
 
         EnemyAI activeEnemy = null;
-
         while (currentEnemyIndexInRound < turnOrder.Count) {
             var target = turnOrder[currentEnemyIndexInRound];
             if (target != null && target.GetComponent<CharacterHealth>().currentHealth > 0) {
@@ -102,32 +101,33 @@ public class BattleManager : MonoBehaviour {
 
         if (activeEnemy != null) {
             CharacterEffects enemyEffects = activeEnemy.GetComponent<CharacterEffects>();
+
+            // --- PASO 1: EMPIEZA EL TURNO DEL ENEMIGO ---
+            enemyEffects.OnTurnStarted(); // Aquí recibe daño de veneno si lo tiene
             enemyEffects.SetTurnVisual(true);
 
             yield return new WaitForSeconds(0.6f);
             enemyEffects.ClearBlock();
+
+            // --- PASO 2: REALIZA LA ACCIÓN ---
+            // Aquí el ataque usará el buff porque aún no lo hemos descontado
             activeEnemy.PerformTurnAction(player);
 
             yield return new WaitForSeconds(0.8f);
 
+            // --- PASO 3: TERMINA EL TURNO DEL ENEMIGO ---
+            enemyEffects.OnTurnEnded(); // AQUÍ restamos la duración del buff
+
             enemyEffects.characterSprite.color = alreadyActedColor;
             enemyEffects.SetTurnVisual(false);
 
-            // --- CINTURÓN DE SEGURIDAD ---
-            if (activeEnemy.orderVisualGroup != null) {
-                // Solo lo apagamos si NO es el BattleManager
-                if (activeEnemy.orderVisualGroup != this.gameObject) {
-                    activeEnemy.orderVisualGroup.SetActive(false);
-                }
-                else {
-                    Debug.LogError($"¡OJO! El enemigo {activeEnemy.name} tiene al BattleManager en el slot OrderVisualGroup. ¡Corrígelo en el Inspector!");
-                }
+            if (activeEnemy.orderVisualGroup != null && activeEnemy.orderVisualGroup != this.gameObject) {
+                activeEnemy.orderVisualGroup.SetActive(false);
             }
 
             currentEnemyIndexInRound++;
         }
 
-        // Volver al jugador
         StartPlayerTurn();
     }
 }

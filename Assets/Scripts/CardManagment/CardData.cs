@@ -32,6 +32,10 @@ public class CardData : ScriptableObject {
     public string description;
     public bool isTargeted;
 
+    // Añade esta variable donde tengas tus otras variables (daño, costo, etc.)
+    [Header("Tipo de Ataque")]
+    public bool isAoE = false; // Si es true, pegará a todos
+
     [Header("Visuals")]
     public Sprite artwork;
     public CardBackgroundColor backgroundColor;
