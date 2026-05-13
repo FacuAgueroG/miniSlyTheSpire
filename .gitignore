@@ -1,16 +1,18 @@
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Logs]/
-/[MemoryCaptures]/
+# Carpetas principales de Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Uu]ser[Ss]ettings/
 
-# Assets generados por el sistema
-[Rr]eport.[Ll]og
-.plastic/
+# Visual Studio (Lo que aparece en rojo en tu imagen)
+.vs/
+.slythespire.slnx/
 
-# Archivos de proyectos de Visual Studio / Rider
+# Archivos de solución y temporales
 *.csproj
 *.sln
 *.suo
@@ -23,6 +25,11 @@
 *.pdb
 *.opendb
 *.VC.db
+
+# Assets y Logs del sistema
+[Rr]eport.[Ll]og
+*.log
+.plastic/
 
 # Archivos de SO
 .DS_Store

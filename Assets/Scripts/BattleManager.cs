@@ -11,7 +11,7 @@ public class BattleManager : MonoBehaviour {
 
     [Header("Entidades")]
     public CharacterEffects player;
-    public List<EnemyAI> allEnemies = new List<EnemyAI>(); // Arrastrá tus 3 enemigos acá
+    public List<EnemyAI> allEnemies = new List<EnemyAI>();
 
     [Header("Orden de Turnos")]
     private List<EnemyAI> turnOrder = new List<EnemyAI>();
@@ -19,22 +19,25 @@ public class BattleManager : MonoBehaviour {
 
     [Header("Configuración Visual")]
     public Color waitingColor = Color.white;
-    public Color alreadyActedColor = Color.gray; // Color cuando ya atacó
+    public Color alreadyActedColor = Color.gray;
 
-    private void Awake() { Instance = this; }
+    private void Awake() {
+        Instance = this;
+    }
 
     private void Start() {
-        // Al inicio, definimos el orden por primera vez
+        // IMPORTANTE: Primero forzamos a que todos decidan qué hacer y se muestren
+        // Antes de que el jugador pueda siquiera tocar una carta.
         DetermineEnemyOrder();
         StartPlayerTurn();
     }
 
-    // El "Dado" que decide quién va 1, 2 o 3
     public void DetermineEnemyOrder() {
-        // Filtramos solo los que están vivos
-        turnOrder = allEnemies.Where(e => e != null && e.GetComponent<CharacterHealth>().currentHealth > 0).ToList();
+        // CAMBIO: No filtramos por vida aquí en el Start para evitar el bug de inicialización
+        // Simplemente tomamos a todos los que existan en la lista.
+        turnOrder = allEnemies.Where(e => e != null).ToList();
 
-        // Mezclamos la lista (El Dado)
+        // El Dado (Mezcla)
         for (int i = 0; i < turnOrder.Count; i++) {
             EnemyAI temp = turnOrder[i];
             int randomIndex = Random.Range(i, turnOrder.Count);
@@ -42,20 +45,28 @@ public class BattleManager : MonoBehaviour {
             turnOrder[randomIndex] = temp;
         }
 
-        // Inyectamos los números en los Textos de cada enemigo y reseteamos color
+        // Asignación de visuales
         for (int i = 0; i < turnOrder.Count; i++) {
-            if (turnOrder[i].intentValueText != null) {
-                // Ponemos el número de orden (1, 2, 3) en el texto que ya tenías o uno nuevo
+            // CORRECCIÓN: Chequeamos el componente correcto antes de escribir
+            if (turnOrder[i].orderText != null) {
                 turnOrder[i].orderText.text = (i + 1).ToString();
             }
+
+            // Si usas un grupo visual (ej. un círculo detrás del número), lo activamos
+            if (turnOrder[i].orderVisualGroup != null) {
+                turnOrder[i].orderVisualGroup.SetActive(true);
+            }
+
             turnOrder[i].GetComponent<CharacterEffects>().characterSprite.color = waitingColor;
+
+            // Esto es vital: Cada enemigo decide SU INTENT ahora mismo
             turnOrder[i].DecideNextMove();
         }
         currentEnemyIndexInRound = 0;
     }
 
     public void StartPlayerTurn() {
-        // Si ya todos los enemigos de la ronda actuaron, tiramos el dado de nuevo
+        // Si ya todos actuaron, toca re-organizar
         if (currentEnemyIndexInRound >= turnOrder.Count) {
             DetermineEnemyOrder();
         }
@@ -78,8 +89,8 @@ public class BattleManager : MonoBehaviour {
         currentState = BattleState.Busy;
         player.SetTurnVisual(false);
 
-        // Buscamos al enemigo que le toca (saltando muertos)
         EnemyAI activeEnemy = null;
+
         while (currentEnemyIndexInRound < turnOrder.Count) {
             var target = turnOrder[currentEnemyIndexInRound];
             if (target != null && target.GetComponent<CharacterHealth>().currentHealth > 0) {
@@ -99,14 +110,24 @@ public class BattleManager : MonoBehaviour {
 
             yield return new WaitForSeconds(0.8f);
 
-            // Cambio de color porque ya actuó
             enemyEffects.characterSprite.color = alreadyActedColor;
             enemyEffects.SetTurnVisual(false);
+
+            // --- CINTURÓN DE SEGURIDAD ---
+            if (activeEnemy.orderVisualGroup != null) {
+                // Solo lo apagamos si NO es el BattleManager
+                if (activeEnemy.orderVisualGroup != this.gameObject) {
+                    activeEnemy.orderVisualGroup.SetActive(false);
+                }
+                else {
+                    Debug.LogError($"¡OJO! El enemigo {activeEnemy.name} tiene al BattleManager en el slot OrderVisualGroup. ¡Corrígelo en el Inspector!");
+                }
+            }
 
             currentEnemyIndexInRound++;
         }
 
-        // Volvemos al player (Intercalado)
+        // Volver al jugador
         StartPlayerTurn();
     }
 }

@@ -9,8 +9,13 @@ public class CharacterHealth : MonoBehaviour {
     [Header("UI")]
     public TextMeshProUGUI healthText;
 
+    // En CharacterHealth.cs
+    private void Awake() {
+        currentHealth = maxHealth; // Esto garantiza que BattleManager vea la vida llena al empezar.
+    }
+
     private void Start() {
-        currentHealth = maxHealth;
+        //currentHealth = maxHealth;
         UpdateUI();
     }
 
@@ -33,7 +38,11 @@ public class CharacterHealth : MonoBehaviour {
 
     private void Die() {
         Debug.Log($"{gameObject.name} ha muerto.");
-        // Futuro: Avisarle al BattleManager
+        // Por ahora, simplemente desaparecemos al enemigo para que no estorbe
+        gameObject.SetActive(false);
+
+        // Si era un enemigo, avisamos al Manager que su turno ya no cuenta
+        // (Esto lo limpiaremos más adelante con un sistema de eventos)
     }
 
     private void UpdateUI() {
