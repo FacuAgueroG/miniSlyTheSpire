@@ -1,0 +1,360 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\miniSlyTheSpyre\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\BattleManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\BattleManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterEffects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\CharacterEffects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\EnemyAI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\EnemyAI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\carddrag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\carddrag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\carddisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\carddisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\deckmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\deckmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\discardmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\discardmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\handview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\handview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\manamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\manamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\enemy\\enemyai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemy\\enemyai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterStats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\CharacterStats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterHealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\CharacterHealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\carddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\carddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\minislythespyre\\assets\\scripts\\cardmanagment\\cardhover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardmanagment\\cardhover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\DiscardManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\DiscardManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\DeckManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\DeckManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\HandView.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\HandView.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardDrag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\CardDrag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\ManaManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\ManaManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardHover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\CardHover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EnemyAI.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\Enemy\\EnemyAI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemy\\EnemyAI.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\Enemy\\EnemyAI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Enemy\\EnemyAI.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAUwDMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T15:20:57.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EnemyAI.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\EnemyAI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyAI.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\EnemyAI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EnemyAI.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAAC0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T15:20:03.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BattleManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\BattleManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\BattleManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\BattleManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\BattleManager.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAASwEoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T15:06:22.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CharacterEffects.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterEffects.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CharacterEffects.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterEffects.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CharacterEffects.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAQwFUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:48:24.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ManaManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\ManaManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\ManaManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\ManaManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\ManaManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "HandView.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\HandView.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\HandView.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\HandView.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\HandView.cs",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAqwMMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DiscardManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\DiscardManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\DiscardManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\DiscardManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\DiscardManager.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAUwEAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DeckManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\DeckManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\DeckManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\DeckManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\DeckManager.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAAAGQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CardDrag.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardDrag.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\CardDrag.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardDrag.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\CardDrag.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAAAIYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CharacterHealth.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CharacterHealth.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CharacterHealth.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA7wCkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:46:58.089Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CharacterStats.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterStats.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CharacterStats.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CharacterStats.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CharacterStats.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAADwv1AAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:38:54.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CardDisplay.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardDisplay.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\CardDisplay.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardDisplay.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\CardDisplay.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAqwCQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CardData.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardData.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\CardData.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardData.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\CardData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CardHover.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardHover.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardManagment\\CardHover.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardManagment\\CardHover.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardManagment\\CardHover.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T14:47:35.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CardDrag.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardDrag.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardDrag.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardDrag.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardDrag.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAwwD8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T13:29:26.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DiscardManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\DiscardManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DiscardManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\DiscardManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DiscardManager.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAArwCUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T13:27:20.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ManaManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\ManaManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ManaManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\ManaManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ManaManager.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAADUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T13:23:46.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "HandView.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\HandView.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\HandView.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\HandView.cs",
+              "RelativeToolTip": "Assets\\Scripts\\HandView.cs",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAAAMMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T12:31:07.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "CardHover.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardHover.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardHover.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\CardHover.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardHover.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T12:30:06.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DeckManager.cs",
+              "DocumentMoniker": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\DeckManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DeckManager.cs",
+              "ToolTip": "C:\\miniSlyTheSpyre\\Assets\\Scripts\\DeckManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DeckManager.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAqwFIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T12:00:49.488Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
