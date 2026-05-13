@@ -3196,12 +3196,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
   deck:
+  - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
+  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
   - {fileID: 11400000, guid: 33ac73c32642e8f4dac3fac135dc03cd, type: 2}
-  - {fileID: 11400000, guid: 33ac73c32642e8f4dac3fac135dc03cd, type: 2}
-  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
-  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
-  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
-  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
+  - {fileID: 11400000, guid: e50b13ecd707b414999b7a288cfb08f2, type: 2}
   playerHand: {fileID: 510719673}
   initialDrawCount: 3
   cardsPerTurn: 1
@@ -3673,6 +3674,9 @@ MonoBehaviour:
   statusIconPrefab: {fileID: 8662937112358269191, guid: c33c4dd6d89ef9e488a8cf8174b6ea60, type: 3}
   iconBlock: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
   iconAttackBuff: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  iconPoison: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
+  iconAttackBuffTimer: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  attackBuffDuration: 0
   characterSprite: {fileID: 1518918682}
   turnColor: {r: 1, g: 0, b: 0.15690327, a: 1}
 --- !u!114 &1518918681
@@ -4149,12 +4153,20 @@ MonoBehaviour:
   nextAction: 0
   attackDamage: 4
   defendAmount: 2
+  canPoison: 0
+  poisonDamage: 2
+  poisonAttackHit: 1
   intentIcon: {fileID: 982705373}
   intentValueText: {fileID: 1887912524}
   attackSprite: {fileID: 21300000, guid: b404138dc9fedaa459239ad8b268bd01, type: 3}
   defendSprite: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
+  poisonSprite: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
   orderText: {fileID: 1126480189}
   orderVisualGroup: {fileID: 1917202141}
+  canBuffAllies: 0
+  buffAmount: 2
+  buffTurnDuration: 2
+  buffIntentSprite: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
 --- !u!224 &1557260492
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4193,6 +4205,9 @@ MonoBehaviour:
   statusIconPrefab: {fileID: 8662937112358269191, guid: c33c4dd6d89ef9e488a8cf8174b6ea60, type: 3}
   iconBlock: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
   iconAttackBuff: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  iconPoison: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
+  iconAttackBuffTimer: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  attackBuffDuration: 0
   characterSprite: {fileID: 1557260495}
   turnColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1557260494
@@ -4625,6 +4640,9 @@ MonoBehaviour:
   statusIconPrefab: {fileID: 8662937112358269191, guid: c33c4dd6d89ef9e488a8cf8174b6ea60, type: 3}
   iconBlock: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
   iconAttackBuff: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  iconPoison: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
+  iconAttackBuffTimer: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  attackBuffDuration: 0
   characterSprite: {fileID: 1791223469}
   turnColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1791223468
@@ -4694,12 +4712,20 @@ MonoBehaviour:
   nextAction: 0
   attackDamage: 4
   defendAmount: 2
+  canPoison: 1
+  poisonDamage: 2
+  poisonAttackHit: 1
   intentIcon: {fileID: 1012526649}
   intentValueText: {fileID: 1683322675}
   attackSprite: {fileID: 21300000, guid: b404138dc9fedaa459239ad8b268bd01, type: 3}
   defendSprite: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
+  poisonSprite: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
   orderText: {fileID: 1887896964}
   orderVisualGroup: {fileID: 160740442}
+  canBuffAllies: 0
+  buffAmount: 2
+  buffTurnDuration: 2
+  buffIntentSprite: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
 --- !u!1 &1822455375
 GameObject:
   m_ObjectHideFlags: 0
@@ -4736,12 +4762,20 @@ MonoBehaviour:
   nextAction: 0
   attackDamage: 4
   defendAmount: 2
+  canPoison: 0
+  poisonDamage: 2
+  poisonAttackHit: 1
   intentIcon: {fileID: 1876585119}
   intentValueText: {fileID: 85206168}
   attackSprite: {fileID: 21300000, guid: b404138dc9fedaa459239ad8b268bd01, type: 3}
   defendSprite: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
+  poisonSprite: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
   orderText: {fileID: 303202152}
   orderVisualGroup: {fileID: 134202035}
+  canBuffAllies: 1
+  buffAmount: 2
+  buffTurnDuration: 2
+  buffIntentSprite: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
 --- !u!224 &1822455377
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4780,6 +4814,9 @@ MonoBehaviour:
   statusIconPrefab: {fileID: 8662937112358269191, guid: c33c4dd6d89ef9e488a8cf8174b6ea60, type: 3}
   iconBlock: {fileID: 21300000, guid: 32be50a402adb134281c159cffde61e0, type: 3}
   iconAttackBuff: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  iconPoison: {fileID: 21300000, guid: 26b106c9f16bc024796659e1c752f2e8, type: 3}
+  iconAttackBuffTimer: {fileID: 21300000, guid: 6b9e9910917a2564f852d612c1cd381c, type: 3}
+  attackBuffDuration: 0
   characterSprite: {fileID: 1822455380}
   turnColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1822455379
