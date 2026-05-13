@@ -7,7 +7,6 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private RectTransform rt;
     private CanvasGroup canvasGroup;
     private CardDisplay cardDisplay;
-    private HandView handView;
 
     private Vector2 originalPosition;
     public float playThresholdPercentage = 0.4f;
@@ -18,50 +17,72 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    private void Start() {
-        handView = Object.FindFirstObjectByType<HandView>();
-    }
-
     public void OnBeginDrag(PointerEventData eventData) {
         if (BattleManager.Instance.currentState != BattleManager.BattleState.PlayerTurn) {
             eventData.pointerDrag = null;
             return;
         }
-        originalPosition = rt.anchoredPosition;
-        if (handView != null) handView.RemoveCard(rt);
-        canvasGroup.blocksRaycasts = false;
+
+        if (cardDisplay.cardData.isTargeted) {
+            // --- CARTA DE APUNTADO ---
+            // 1. Bloqueamos el hover en la mano para que no se baje
+            HandView.Instance.SetDragLock(rt, true);
+            // 2. Apagamos raycasts para que la flecha detecte lo que hay ABAJO (el enemigo)
+            canvasGroup.blocksRaycasts = false;
+            // 3. Activamos la flecha
+            TargetingArrow.Instance.ActivateArrow(rt.position);
+        }
+        else {
+            // --- CARTA NORMAL (AOE/DEFENSA) ---
+            originalPosition = rt.anchoredPosition;
+            // La quitamos de la mano para moverla libremente
+            HandView.Instance.RemoveCard(rt);
+            canvasGroup.blocksRaycasts = false;
+        }
     }
 
-    public void OnDrag(PointerEventData eventData) { rt.position = eventData.position; }
+    public void OnDrag(PointerEventData eventData) {
+        if (cardDisplay.cardData.isTargeted) {
+            // Solo actualizamos la flecha, la carta NO se mueve
+            TargetingArrow.Instance.UpdateArrow(rt.position, eventData.position);
+        }
+        else {
+            // Movemos la carta siguiendo al mouse
+            rt.position = eventData.position;
+        }
+    }
 
     public void OnEndDrag(PointerEventData eventData) {
+        // Capturamos los objetos antes de reactivar para que la carta no se estorbe a sí misma
+        List<GameObject> hoveredObjects = eventData.hovered;
         canvasGroup.blocksRaycasts = true;
 
-        bool aboveThreshold = rt.position.y > Screen.height * playThresholdPercentage;
         CharacterEffects targetFound = null;
+        foreach (var obj in hoveredObjects) {
+            // CAMBIO AQUÍ: Usamos GetComponentInParent para encontrar al enemigo 
+            // aunque el mouse toque una imagen hija (el cuerpo, la sombra, etc.)
+            var effects = obj.GetComponentInParent<CharacterEffects>();
 
-        // Buscamos enemigo (Raycast UI)
-        foreach (var obj in eventData.hovered) {
-            var effects = obj.GetComponent<CharacterEffects>();
-            if (effects != null && obj != BattleManager.Instance.player.gameObject) {
+            if (effects != null && effects.gameObject != BattleManager.Instance.player.gameObject) {
                 targetFound = effects;
                 break;
             }
         }
 
-        if (aboveThreshold) {
-            // Si la carta requiere un target pero no soltamos sobre uno, vuelve a la mano
-            if (cardDisplay.cardData.isTargeted) {
-                if (targetFound != null) TryPlayCard(targetFound);
-                else ReturnToHand();
+        if (cardDisplay.cardData.isTargeted) {
+            TargetingArrow.Instance.DeactivateArrow();
+            HandView.Instance.SetDragLock(rt, false);
+
+            if (targetFound != null) {
+                TryPlayCard(targetFound);
             }
-            else {
-                // Si es AoE o Buff (no targeted), se juega sin target
-                TryPlayCard(null);
-            }
+            // Si no hay targetFound, la carta simplemente vuelve a su lugar en la mano
         }
         else {
-            ReturnToHand();
+            // Lógica para cartas AOE/Defensa (Umbral de altura)
+            bool aboveThreshold = rt.position.y > Screen.height * playThresholdPercentage;
+            if (aboveThreshold) TryPlayCard(null);
+            else ReturnToHand();
         }
     }
 
@@ -70,59 +91,48 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (ManaManager.Instance.HasEnoughMana(cost)) {
             ManaManager.Instance.ConsumeMana(cost);
 
-            CharacterEffects player = BattleManager.Instance.player;
+            // Si la carta era targeted, ahora SÍ debemos quitarla de la mano visualmente antes de destruirla
+            if (cardDisplay.cardData.isTargeted) {
+                HandView.Instance.RemoveCard(rt);
+            }
 
-            // Iteramos sobre los efectos de la carta
+            CharacterEffects player = BattleManager.Instance.player;
             foreach (var effect in cardDisplay.cardData.effects) {
                 int amount = (int)effect.value1;
-
                 switch (effect.effectType) {
                     case CardEffectType.DealDamage:
-                        // --- NUEVA LÓGICA DE ATAQUE Y VENENO ---
                         if (cardDisplay.cardData.isAoE) {
-                            // ATAQUE EN ÁREA: Golpeamos a todos los enemigos de la lista
                             foreach (EnemyAI enemy in BattleManager.Instance.allEnemies) {
                                 if (enemy != null && enemy.GetComponent<CharacterHealth>().currentHealth > 0) {
                                     enemy.GetComponent<CharacterEffects>().ProcessIncomingDamage(amount + player.attackBuff);
-                                    // Al golpear a cada uno, nos quitamos SU veneno
                                     player.ClearPoisonFromSource(enemy);
                                 }
                             }
                         }
-                        else {
-                            // ATAQUE SINGLE TARGET
-                            if (target != null) {
-                                target.ProcessIncomingDamage(amount + player.attackBuff);
-
-                                // Si el target es un enemigo, nos quitamos su veneno
-                                EnemyAI enemyComp = target.GetComponent<EnemyAI>();
-                                if (enemyComp != null) {
-                                    player.ClearPoisonFromSource(enemyComp);
-                                }
-                            }
+                        else if (target != null) {
+                            target.ProcessIncomingDamage(amount + player.attackBuff);
+                            EnemyAI enemyComp = target.GetComponent<EnemyAI>();
+                            if (enemyComp != null) player.ClearPoisonFromSource(enemyComp);
                         }
                         break;
-
                     case CardEffectType.GainBlock:
                         player.AddBlock(amount);
                         break;
-
                     case CardEffectType.GainAttackBuff:
                         player.AddAttackBuff(amount);
                         break;
                 }
             }
-
             DiscardManager.Instance.AddCardToDiscard(cardDisplay.cardData);
             Destroy(gameObject);
         }
         else {
-            ReturnToHand();
+            if (!cardDisplay.cardData.isTargeted) ReturnToHand();
+            // Si es targeted y no hay mana, simplemente se desbloquea el hover (ya hecho arriba)
         }
     }
 
     private void ReturnToHand() {
-        if (handView != null) handView.AddCard(rt);
-        else rt.anchoredPosition = originalPosition;
+        if (HandView.Instance != null) HandView.Instance.AddCard(rt);
     }
 }

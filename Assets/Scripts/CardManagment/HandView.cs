@@ -45,6 +45,9 @@ public class HandView : MonoBehaviour {
     private readonly List<float> targetRotZ = new();
     private readonly List<float> targetScale = new();
 
+    // --- NUEVO: Para bloquear la carta en estado levantado ---
+    private RectTransform dragLockedCard;
+
     private void Awake() {
         if (Instance == null) Instance = this;
 
@@ -123,8 +126,18 @@ public class HandView : MonoBehaviour {
         Layout();
     }
 
+    public void SetDragLock(RectTransform card, bool locked) {
+        dragLockedCard = locked ? card : null;
+        if (locked) SetHovered(card);
+        else ClearHovered(card);
+    }
+
+    // --- MODIFICA ESTE MÉTODO ---
     public void ClearHovered(RectTransform rt) {
         if (rt == null) return;
+        // Si la carta está bloqueada por el drag de flecha, IGNORAMOS el clear
+        if (dragLockedCard == rt) return;
+
         if (hovered != rt) return;
         hovered = null;
         hoveredIndex = -1;
