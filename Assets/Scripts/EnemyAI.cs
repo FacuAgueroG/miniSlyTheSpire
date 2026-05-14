@@ -82,19 +82,28 @@ public class EnemyAI : MonoBehaviour {
                 break;
 
             case EnemyAction.PoisonAttack:
-                int unblocked = playerTarget.ProcessIncomingDamage(poisonAttackHit + GetComponent<CharacterEffects>().attackBuff);
-                if (unblocked > 0) playerTarget.ApplyPoison(this, poisonDamage);
+                // 1. Calculamos el daño total (base + buff)
+                int damageToDeal = poisonAttackHit + GetComponent<CharacterEffects>().attackBuff;
+
+                // 2. El player procesa el daño. Esta función devuelve el daño que SÍ llegó a la vida.
+                int unblocked = playerTarget.ProcessIncomingDamage(damageToDeal);
+
+                // 3. SOLO si el daño traspasó el escudo (unblocked > 0), inyectamos el veneno
+                if (unblocked > 0) {
+                    playerTarget.ApplyPoison(this, poisonDamage);
+                    Debug.Log("¡Veneno aplicado!");
+                }
+                else {
+                    Debug.Log("El escudo bloqueó el veneno.");
+                }
                 break;
 
             case EnemyAction.BuffAllies:
-                // Buscamos a todos los enemigos en la partida
                 foreach (EnemyAI ally in BattleManager.Instance.allEnemies) {
-                    // Solo a los vivos y QUE NO SEA ÉL MISMO
                     if (ally != null && ally != this && ally.GetComponent<CharacterHealth>().currentHealth > 0) {
                         ally.GetComponent<CharacterEffects>().AddAttackBuff(buffAmount, buffTurnDuration);
                     }
                 }
-                Debug.Log($"{gameObject.name} ha buffeado a sus aliados.");
                 break;
         }
     }

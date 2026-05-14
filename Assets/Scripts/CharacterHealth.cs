@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 public class CharacterHealth : MonoBehaviour {
     [Header("Estadísticas")]
@@ -36,13 +37,12 @@ public class CharacterHealth : MonoBehaviour {
         UpdateUI();
     }
 
-    private void Die() {
-        Debug.Log($"{gameObject.name} ha muerto.");
-        // Por ahora, simplemente desaparecemos al enemigo para que no estorbe
-        gameObject.SetActive(false);
+    // En CharacterHealth.cs (opcional para limpiar tu desorden del Canvas)
+    public List<GameObject> extraVisuals; // Arrastra aquí la barra de vida, iconos, etc que estén sueltos
 
-        // Si era un enemigo, avisamos al Manager que su turno ya no cuenta
-        // (Esto lo limpiaremos más adelante con un sistema de eventos)
+    private void Die() {
+        foreach (var obj in extraVisuals) obj.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void UpdateUI() {

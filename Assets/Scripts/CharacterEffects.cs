@@ -102,16 +102,16 @@ public class CharacterEffects : MonoBehaviour {
 
     public int ProcessIncomingDamage(int damage) {
         if (damage <= 0) return 0;
-        int unblockedDamage = damage;
+        int unblockedDamage = damage; // Calculamos cuánto daño puro pasa
 
         if (currentBlock > 0) {
             if (unblockedDamage >= currentBlock) {
-                unblockedDamage -= currentBlock;
+                unblockedDamage -= currentBlock; // Rompe el escudo
                 currentBlock = 0;
             }
             else {
-                currentBlock -= unblockedDamage;
-                unblockedDamage = 0;
+                currentBlock -= unblockedDamage; // El escudo aguanta el golpe
+                unblockedDamage = 0; // ESTO ES VITAL: El daño sobrante a la vida es 0
             }
         }
 
@@ -121,6 +121,7 @@ public class CharacterEffects : MonoBehaviour {
         }
         UpdateStatusUI();
 
+        // DEBE retornar 0 si el escudo absorbió todo el golpe
         return unblockedDamage;
     }
 

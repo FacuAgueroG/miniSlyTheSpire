@@ -33,11 +33,11 @@ public class BattleManager : MonoBehaviour {
     }
 
     public void DetermineEnemyOrder() {
-        // CAMBIO: No filtramos por vida aquí en el Start para evitar el bug de inicialización
-        // Simplemente tomamos a todos los que existan en la lista.
-        turnOrder = allEnemies.Where(e => e != null).ToList();
+        // SOLUCIÓN AL RANDOMIZER: Solo metemos en el bombo a los que tengan vida > 0
+        // Esto automáticamente saca a los muertos de la ecuación de turnos.
+        turnOrder = allEnemies.Where(e => e != null && e.GetComponent<CharacterHealth>().currentHealth > 0).ToList();
 
-        // El Dado (Mezcla)
+        // El Dado (Mezcla de turnos)
         for (int i = 0; i < turnOrder.Count; i++) {
             EnemyAI temp = turnOrder[i];
             int randomIndex = Random.Range(i, turnOrder.Count);
@@ -45,21 +45,20 @@ public class BattleManager : MonoBehaviour {
             turnOrder[randomIndex] = temp;
         }
 
-        // Asignación de visuales
+        // Asignación de visuales solo para los vivos que entraron en la ronda
         for (int i = 0; i < turnOrder.Count; i++) {
-            // CORRECCIÓN: Chequeamos el componente correcto antes de escribir
             if (turnOrder[i].orderText != null) {
                 turnOrder[i].orderText.text = (i + 1).ToString();
             }
 
-            // Si usas un grupo visual (ej. un círculo detrás del número), lo activamos
+            // Encendemos el grupo visual (el número de turno)
             if (turnOrder[i].orderVisualGroup != null) {
                 turnOrder[i].orderVisualGroup.SetActive(true);
             }
 
             turnOrder[i].GetComponent<CharacterEffects>().characterSprite.color = waitingColor;
 
-            // Esto es vital: Cada enemigo decide SU INTENT ahora mismo
+            // Cada enemigo decide qué hacer (Ataque, Defensa, Veneno, Buff)
             turnOrder[i].DecideNextMove();
         }
         currentEnemyIndexInRound = 0;
