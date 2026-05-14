@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-
 public class BattleManager : MonoBehaviour {
     public static BattleManager Instance;
     public enum BattleState { PlayerTurn, EnemyTurn, Busy }

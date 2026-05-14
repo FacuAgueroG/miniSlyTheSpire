@@ -1682,13 +1682,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
   deck:
+  - {fileID: 11400000, guid: e50b13ecd707b414999b7a288cfb08f2, type: 2}
+  - {fileID: 11400000, guid: e50b13ecd707b414999b7a288cfb08f2, type: 2}
   - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
   - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
   - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: 95e03a0d73e7cd449ab9d9f162c4a2a5, type: 2}
+  - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
   - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
   - {fileID: 11400000, guid: fffe3c227eceba64183c40327aead704, type: 2}
   - {fileID: 11400000, guid: 33ac73c32642e8f4dac3fac135dc03cd, type: 2}
-  - {fileID: 11400000, guid: e50b13ecd707b414999b7a288cfb08f2, type: 2}
+  - {fileID: 11400000, guid: 33ac73c32642e8f4dac3fac135dc03cd, type: 2}
   playerHand: {fileID: 495555000}
   initialDrawCount: 3
   cardsPerTurn: 1
@@ -2807,7 +2813,7 @@ MonoBehaviour:
   allEnemies:
   - {fileID: 934743949}
   waitingColor: {r: 1, g: 0.88149357, b: 0, a: 1}
-  alreadyActedColor: {r: 0.021978855, g: 0, b: 1, a: 1}
+  alreadyActedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!4 &1188457425
 Transform:
   m_ObjectHideFlags: 0

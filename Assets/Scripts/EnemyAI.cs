@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
 public class EnemyAI : MonoBehaviour {
     // --- Añade a la Enum ---
     public enum EnemyAction { Attack, Defend, PoisonAttack, BuffAllies }

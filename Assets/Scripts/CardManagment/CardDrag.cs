@@ -24,18 +24,12 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
 
         if (cardDisplay.cardData.isTargeted) {
-            // --- CARTA DE APUNTADO ---
-            // 1. Bloqueamos el hover en la mano para que no se baje
             HandView.Instance.SetDragLock(rt, true);
-            // 2. Apagamos raycasts para que la flecha detecte lo que hay ABAJO (el enemigo)
             canvasGroup.blocksRaycasts = false;
-            // 3. Activamos la flecha
             TargetingArrow.Instance.ActivateArrow(rt.position);
         }
         else {
-            // --- CARTA NORMAL (AOE/DEFENSA) ---
             originalPosition = rt.anchoredPosition;
-            // La quitamos de la mano para moverla libremente
             HandView.Instance.RemoveCard(rt);
             canvasGroup.blocksRaycasts = false;
         }
@@ -43,87 +37,59 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData) {
         if (cardDisplay.cardData.isTargeted) {
-            // Solo actualizamos la flecha, la carta NO se mueve
             TargetingArrow.Instance.UpdateArrow(rt.position, eventData.position);
         }
         else {
-            // Movemos la carta siguiendo al mouse
             rt.position = eventData.position;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-
-        // Capturamos los objetos antes de reactivar para que la carta no se estorbe a sí misma
-
-        List<GameObject> hoveredObjects = eventData.hovered;
-
+        // 1. IMPORTANTE: Reactivamos Raycasts inmediatamente para evitar el "congelamiento" visual
         canvasGroup.blocksRaycasts = true;
-
-
 
         CharacterEffects targetFound = null;
 
-        foreach (var obj in hoveredObjects) {
+        // --- FIX DEL INPUT SYSTEM ---
+        // Usamos eventData.position que ya viene del Input System, 
+        // en lugar de Input.mousePosition (que causa el error).
+        Vector2 mousePosWorld = Camera.main.ScreenToWorldPoint(eventData.position);
 
-            // CAMBIO AQUÍ: Usamos GetComponentInParent para encontrar al enemigo
+        RaycastHit2D hit = Physics2D.Raycast(mousePosWorld, Vector2.zero);
 
-            // aunque el mouse toque una imagen hija (el cuerpo, la sombra, etc.)
-
-            var effects = obj.GetComponentInParent<CharacterEffects>();
-
-
-
+        if (hit.collider != null) {
+            var effects = hit.collider.GetComponentInParent<CharacterEffects>();
             if (effects != null && effects.gameObject != BattleManager.Instance.player.gameObject) {
-
                 targetFound = effects;
-
-                break;
-
             }
-
         }
-
-
 
         if (cardDisplay.cardData.isTargeted) {
-
             TargetingArrow.Instance.DeactivateArrow();
-
             HandView.Instance.SetDragLock(rt, false);
 
-
-
             if (targetFound != null) {
-
                 TryPlayCard(targetFound);
-
             }
-
-            // Si no hay targetFound, la carta simplemente vuelve a su lugar en la mano
-
+            else {
+                // Si no hay objetivo, forzamos el reset de la carta en la mano
+                HandView.Instance.ClearHovered(rt);
+                HandView.Instance.Layout();
+            }
         }
-
         else {
-
-            // Lógica para cartas AOE/Defensa (Umbral de altura)
-
             bool aboveThreshold = rt.position.y > Screen.height * playThresholdPercentage;
-
             if (aboveThreshold) TryPlayCard(null);
-
             else ReturnToHand();
-
         }
-
     }
 
     private void TryPlayCard(CharacterEffects target) {
         int cost = cardDisplay.cardData.manaCost;
         if (ManaManager.Instance.HasEnoughMana(cost)) {
+            // ... lógica de efectos igual ...
             ManaManager.Instance.ConsumeMana(cost);
 
-            // Si la carta era targeted, ahora SÍ debemos quitarla de la mano visualmente antes de destruirla
             if (cardDisplay.cardData.isTargeted) {
                 HandView.Instance.RemoveCard(rt);
             }
@@ -137,14 +103,11 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                             foreach (EnemyAI enemy in BattleManager.Instance.allEnemies) {
                                 if (enemy != null && enemy.GetComponent<CharacterHealth>().currentHealth > 0) {
                                     enemy.GetComponent<CharacterEffects>().ProcessIncomingDamage(amount + player.attackBuff);
-                                    player.ClearPoisonFromSource(enemy);
                                 }
                             }
                         }
                         else if (target != null) {
                             target.ProcessIncomingDamage(amount + player.attackBuff);
-                            EnemyAI enemyComp = target.GetComponent<EnemyAI>();
-                            if (enemyComp != null) player.ClearPoisonFromSource(enemyComp);
                         }
                         break;
                     case CardEffectType.GainBlock:
@@ -159,8 +122,12 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             Destroy(gameObject);
         }
         else {
+            // Si no hay maná, reseteamos el estado visual para que no flote
             if (!cardDisplay.cardData.isTargeted) ReturnToHand();
-            // Si es targeted y no hay mana, simplemente se desbloquea el hover (ya hecho arriba)
+            else {
+                HandView.Instance.ClearHovered(rt);
+                HandView.Instance.Layout();
+            }
         }
     }
 
