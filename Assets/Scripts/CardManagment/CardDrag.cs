@@ -53,37 +53,69 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
 
     public void OnEndDrag(PointerEventData eventData) {
+
         // Capturamos los objetos antes de reactivar para que la carta no se estorbe a sí misma
+
         List<GameObject> hoveredObjects = eventData.hovered;
+
         canvasGroup.blocksRaycasts = true;
 
+
+
         CharacterEffects targetFound = null;
+
         foreach (var obj in hoveredObjects) {
-            // CAMBIO AQUÍ: Usamos GetComponentInParent para encontrar al enemigo 
+
+            // CAMBIO AQUÍ: Usamos GetComponentInParent para encontrar al enemigo
+
             // aunque el mouse toque una imagen hija (el cuerpo, la sombra, etc.)
+
             var effects = obj.GetComponentInParent<CharacterEffects>();
 
+
+
             if (effects != null && effects.gameObject != BattleManager.Instance.player.gameObject) {
+
                 targetFound = effects;
+
                 break;
+
             }
+
         }
+
+
 
         if (cardDisplay.cardData.isTargeted) {
+
             TargetingArrow.Instance.DeactivateArrow();
+
             HandView.Instance.SetDragLock(rt, false);
 
+
+
             if (targetFound != null) {
+
                 TryPlayCard(targetFound);
+
             }
+
             // Si no hay targetFound, la carta simplemente vuelve a su lugar en la mano
+
         }
+
         else {
+
             // Lógica para cartas AOE/Defensa (Umbral de altura)
+
             bool aboveThreshold = rt.position.y > Screen.height * playThresholdPercentage;
+
             if (aboveThreshold) TryPlayCard(null);
+
             else ReturnToHand();
+
         }
+
     }
 
     private void TryPlayCard(CharacterEffects target) {
