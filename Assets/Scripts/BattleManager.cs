@@ -36,29 +36,25 @@ public class BattleManager : MonoBehaviour {
         // Esto automáticamente saca a los muertos de la ecuación de turnos.
         turnOrder = allEnemies.Where(e => e != null && e.GetComponent<CharacterHealth>().currentHealth > 0).ToList();
 
-        // El Dado (Mezcla de turnos)
         for (int i = 0; i < turnOrder.Count; i++) {
-            EnemyAI temp = turnOrder[i];
-            int randomIndex = Random.Range(i, turnOrder.Count);
-            turnOrder[i] = turnOrder[randomIndex];
-            turnOrder[randomIndex] = temp;
-        }
+            EnemyAI enemy = turnOrder[i];
 
-        // Asignación de visuales solo para los vivos que entraron en la ronda
-        for (int i = 0; i < turnOrder.Count; i++) {
-            if (turnOrder[i].orderText != null) {
-                turnOrder[i].orderText.text = (i + 1).ToString();
+            // 1. Asignar número de turno
+            if (enemy.orderText != null) {
+                enemy.orderText.text = (i + 1).ToString();
             }
 
-            // Encendemos el grupo visual (el número de turno)
-            if (turnOrder[i].orderVisualGroup != null) {
-                turnOrder[i].orderVisualGroup.SetActive(true);
+            if (enemy.orderVisualGroup != null) {
+                enemy.orderVisualGroup.SetActive(true);
             }
 
-            turnOrder[i].GetComponent<CharacterEffects>().characterSprite.color = waitingColor;
+            // 2. Cambiar color usando el método seguro (CORRECCIÓN LÍNEA 58)
+            if (enemy.TryGetComponent<CharacterEffects>(out var effects)) {
+                effects.SetVisualColor(waitingColor);
+            }
 
-            // Cada enemigo decide qué hacer (Ataque, Defensa, Veneno, Buff)
-            turnOrder[i].DecideNextMove();
+            // 3. Decidir siguiente movimiento (esto ahora SÍ se ejecutará)
+            enemy.DecideNextMove();
         }
         currentEnemyIndexInRound = 0;
     }
@@ -116,7 +112,7 @@ public class BattleManager : MonoBehaviour {
             // --- PASO 3: TERMINA EL TURNO DEL ENEMIGO ---
             enemyEffects.OnTurnEnded(); // AQUÍ restamos la duración del buff
 
-            enemyEffects.characterSprite.color = alreadyActedColor;
+            enemyEffects.SetVisualColor(alreadyActedColor);
             enemyEffects.SetTurnVisual(false);
 
             if (activeEnemy.orderVisualGroup != null && activeEnemy.orderVisualGroup != this.gameObject) {
