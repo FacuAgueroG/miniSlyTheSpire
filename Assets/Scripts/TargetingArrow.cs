@@ -26,26 +26,43 @@ public class TargetingArrow : MonoBehaviour {
         arrowHead = head.GetComponent<RectTransform>();
     }
 
-    public void ActivateArrow(Vector2 startPos) {
+    public void ActivateArrow(Vector3 startPos) {
         isActive = true;
         foreach (var dot in dots) dot.gameObject.SetActive(true);
         arrowHead.gameObject.SetActive(true);
-        UpdateArrow(startPos, startPos); // Solo 2 argumentos
+        UpdateArrow(startPos, startPos);
     }
 
-    public void UpdateArrow(Vector2 startPos, Vector2 endPos) {
+    public void UpdateArrow(Vector3 startPos, Vector3 endPos) {
         if (!isActive) return;
-        Vector2 controlPoint = startPos + (endPos - startPos) / 2;
-        controlPoint.y += curveHeight;
-        Vector2 previousPos = startPos;
+
+        // Aseguramos que la Z sea coherente para que no se oculte tras el fondo
+        startPos.z = -1f;
+        endPos.z = -1f;
+
+        // Calculamos la distancia para que la curva sea dinámica
+        float distance = Vector3.Distance(startPos, endPos);
+        Vector3 directionVec = endPos - startPos;
+
+        // Punto de control: Calculamos una altura proporcional a la distancia
+        Vector3 controlPoint = startPos + directionVec / 2f;
+        controlPoint.y += Mathf.Max(2f, distance * 0.4f); // Se arquea más cuanto más lejos vas
+        controlPoint.x -= directionVec.y * 0.2f; // Un pequeño desplazamiento lateral para que sea más orgánica
+
+        Vector3 previousPos = startPos;
+
         for (int i = 0; i < dotCount; i++) {
             float t = (i / (float)(dotCount - 1)) * dotSpacing;
             float u = 1 - t;
-            Vector2 pointOnCurve = (u * u * startPos) + (2 * u * t * controlPoint) + (t * t * endPos);
+
+            // Curva de Bezier con los nuevos puntos dinámicos
+            Vector3 pointOnCurve = (u * u * startPos) + (2f * u * t * controlPoint) + (t * t * endPos);
             dots[i].position = pointOnCurve;
+
+            // Orientación de la punta (usa el penúltimo punto para saber a dónde mirar)
             if (i == dotCount - 1) {
                 arrowHead.position = pointOnCurve;
-                Vector2 direction = pointOnCurve - previousPos;
+                Vector3 direction = pointOnCurve - previousPos;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 arrowHead.rotation = Quaternion.Euler(0, 0, angle + arrowAngleOffset);
             }

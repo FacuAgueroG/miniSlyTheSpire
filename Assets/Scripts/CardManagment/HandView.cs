@@ -86,9 +86,12 @@ public class HandView : MonoBehaviour {
         if (cardRt == null) return;
         if (IsFull) return;
 
-        cardRt.SetParent(container, worldPositionStays: false);
-        cards.Add(cardRt);
+        // CAMBIO CLAVE: worldPositionStays = true
+        // Esto hace que la carta se quede donde el mouse la dejó, 
+        // y luego el Lerp del Update la mueva suavemente a su lugar en la mano.
+        cardRt.SetParent(container, worldPositionStays: true);
 
+        cards.Add(cardRt);
         targetPos.Add(cardRt.anchoredPosition);
         targetRotZ.Add(cardRt.localEulerAngles.z);
         targetScale.Add(1f);

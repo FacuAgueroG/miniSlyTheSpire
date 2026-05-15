@@ -37,30 +37,39 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData) {
         if (cardDisplay.cardData.isTargeted) {
-            // Pasamos solo posiciones de pantalla
-            TargetingArrow.Instance.UpdateArrow(rt.position, eventData.position);
+            Camera arenaCam = MapManager.Instance.arenaCamera.GetComponent<Camera>();
+
+            // TRUCO VITAL: Traducimos los píxeles del mouse a los "metros" del Canvas
+            RectTransform arrowRect = TargetingArrow.Instance.GetComponent<RectTransform>();
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(arrowRect, eventData.position, arenaCam, out Vector3 mouseWorldPos);
+
+            // Ahora sí, la flecha dibuja entre Metros y Metros
+            TargetingArrow.Instance.UpdateArrow(rt.position, mouseWorldPos);
         }
         else {
-            rt.position = eventData.position;
+            // Hacemos lo mismo para mover la carta de forma segura en el espacio 3D
+            Camera arenaCam = MapManager.Instance.arenaCamera.GetComponent<Camera>();
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt.parent as RectTransform, eventData.position, arenaCam, out Vector3 cardWorldPos);
+            rt.position = cardWorldPos;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData) {
         canvasGroup.blocksRaycasts = true;
 
-        // Si el manager no existe, devolvemos la carta para que no se congele
         if (MapManager.Instance == null) {
             ReturnToHand();
             return;
         }
 
         Camera arenaCam = MapManager.Instance.arenaCamera.GetComponent<Camera>();
+
+        // Raycast para detectar enemigos
         Vector3 mousePosPixels = new Vector3(eventData.position.x, eventData.position.y, 10f);
         Vector2 mousePosWorld = arenaCam.ScreenToWorldPoint(mousePosPixels);
-
         RaycastHit2D hit = Physics2D.Raycast(mousePosWorld, Vector2.zero);
-        CharacterEffects targetFound = null;
 
+        CharacterEffects targetFound = null;
         if (hit.collider != null) {
             targetFound = hit.collider.GetComponentInParent<CharacterEffects>();
         }
@@ -73,12 +82,16 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 TryPlayCard(targetFound);
             }
             else {
-                ReturnToHand();
+                // Si cancelas el apuntado, forzamos el re-acomodo
                 HandView.Instance.Layout();
             }
         }
         else {
-            if (rt.position.y > Screen.height * playThresholdPercentage) TryPlayCard(null);
+            // FIX VITAL: Usamos eventData.position.y (píxeles del mouse) 
+            // en lugar de rt.position.y (metros de la carta)
+            bool aboveThreshold = eventData.position.y > Screen.height * playThresholdPercentage;
+
+            if (aboveThreshold) TryPlayCard(null);
             else ReturnToHand();
         }
     }
