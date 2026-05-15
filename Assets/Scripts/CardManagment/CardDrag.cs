@@ -37,6 +37,7 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData) {
         if (cardDisplay.cardData.isTargeted) {
+            // Pasamos solo posiciones de pantalla
             TargetingArrow.Instance.UpdateArrow(rt.position, eventData.position);
         }
         else {
@@ -45,41 +46,39 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        // 1. IMPORTANTE: Reactivamos Raycasts inmediatamente para evitar el "congelamiento" visual
         canvasGroup.blocksRaycasts = true;
 
-        CharacterEffects targetFound = null;
+        // Si el manager no existe, devolvemos la carta para que no se congele
+        if (MapManager.Instance == null) {
+            ReturnToHand();
+            return;
+        }
 
-        // --- FIX DEL INPUT SYSTEM ---
-        // Usamos eventData.position que ya viene del Input System, 
-        // en lugar de Input.mousePosition (que causa el error).
-        Vector2 mousePosWorld = Camera.main.ScreenToWorldPoint(eventData.position);
+        Camera arenaCam = MapManager.Instance.arenaCamera.GetComponent<Camera>();
+        Vector3 mousePosPixels = new Vector3(eventData.position.x, eventData.position.y, 10f);
+        Vector2 mousePosWorld = arenaCam.ScreenToWorldPoint(mousePosPixels);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePosWorld, Vector2.zero);
+        CharacterEffects targetFound = null;
 
         if (hit.collider != null) {
-            var effects = hit.collider.GetComponentInParent<CharacterEffects>();
-            if (effects != null && effects.gameObject != BattleManager.Instance.player.gameObject) {
-                targetFound = effects;
-            }
+            targetFound = hit.collider.GetComponentInParent<CharacterEffects>();
         }
 
         if (cardDisplay.cardData.isTargeted) {
             TargetingArrow.Instance.DeactivateArrow();
             HandView.Instance.SetDragLock(rt, false);
 
-            if (targetFound != null) {
+            if (targetFound != null && targetFound.gameObject != BattleManager.Instance.player.gameObject) {
                 TryPlayCard(targetFound);
             }
             else {
-                // Si no hay objetivo, forzamos el reset de la carta en la mano
-                HandView.Instance.ClearHovered(rt);
+                ReturnToHand();
                 HandView.Instance.Layout();
             }
         }
         else {
-            bool aboveThreshold = rt.position.y > Screen.height * playThresholdPercentage;
-            if (aboveThreshold) TryPlayCard(null);
+            if (rt.position.y > Screen.height * playThresholdPercentage) TryPlayCard(null);
             else ReturnToHand();
         }
     }

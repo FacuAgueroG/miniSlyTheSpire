@@ -998,7 +998,6 @@ MonoBehaviour:
   - {fileID: 1824618164}
   currentArena: 1
   arenaText: {fileID: 441885886}
-  nextArenaButton: {fileID: 985412459}
 --- !u!4 &293325370
 Transform:
   m_ObjectHideFlags: 0
@@ -1215,7 +1214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &330585544
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4071,6 +4070,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31374c809c076c945a6d7a24f1d0ed46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
+  arenaCamera: {fileID: 330585543}
+  mapCamera: {fileID: 1780943199}
+  mapCanvasRoot: {fileID: 1399784121}
   playerIcon: {fileID: 697204549}
   rewardPanel: {fileID: 138808127}
   mapCanvasGroup: {fileID: 1691777298}
@@ -4909,15 +4911,15 @@ GameObject:
   m_Component:
   - component: {fileID: 1780943203}
   - component: {fileID: 1780943200}
-  - component: {fileID: 1780943202}
   - component: {fileID: 1780943201}
+  - component: {fileID: 1780943204}
   m_Layer: 0
   m_Name: MapCamera
-  m_TagString: MainCamera
+  m_TagString: secondCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1780943200
 Camera:
   m_ObjectHideFlags: 0
@@ -5013,14 +5015,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &1780943202
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1780943199}
-  m_Enabled: 1
 --- !u!4 &1780943203
 Transform:
   m_ObjectHideFlags: 0
@@ -5036,6 +5030,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1780943204
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780943199}
+  m_Enabled: 0
 --- !u!1 &1812108917
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,10 +5,15 @@ using System.Collections.Generic;
 public class MapManager : MonoBehaviour {
     public static MapManager Instance;
 
-    [Header("Referencias")]
-    public RectTransform playerIcon; // El punto verde
+    [Header("Control de Vistas (Cámaras)")]
+    public GameObject arenaCamera;
+    public GameObject mapCamera;
+    public GameObject mapCanvasRoot; // El Canvas padre que contiene el ScrollView
+
+    [Header("Referencias UI")]
+    public RectTransform playerIcon;
     public GameObject rewardPanel;
-    public CanvasGroup mapCanvasGroup; // Para bloquear clics mientras se mueve
+    public CanvasGroup mapCanvasGroup; // Recuerda, este va en el Scroll View
 
     [Header("Configuración")]
     public float moveSpeed = 500f;
@@ -21,63 +26,90 @@ public class MapManager : MonoBehaviour {
     }
 
     private void Start() {
+
+        // ESTA LÍNEA ES CLAVE:
+
+        // Obliga al juego a esconder el mapa y mostrar la arena apenas arranca.
+
+        GoToArena();
+
+
+
         UpdateNodesState();
+
     }
 
-    public void OnNodeClicked(MapNode targetNode) {
-        // Regla de Oro: Solo podemos movernos a la sección siguiente (n+1)
-        if (isMoving || targetNode.sectionIndex != currentSection + 1) return;
+    // --- MÉTODOS DE TRANSICIÓN DE CÁMARA ---
+    public void GoToMap() {
+        arenaCamera.SetActive(false);
+        mapCamera.SetActive(true);
+        mapCanvasRoot.SetActive(true);
+        UpdateNodesState(); // Aseguramos que los botones estén listos
+    }
 
+    public void GoToArena() {
+        mapCamera.SetActive(false);
+        mapCanvasRoot.SetActive(false);
+        arenaCamera.SetActive(true);
+    }
+    // ---------------------------------------
+
+    public void OnNodeClicked(MapNode targetNode) {
+        if (isMoving || targetNode.sectionIndex != currentSection + 1) return;
         StartCoroutine(MovePlayerRoutine(targetNode));
     }
 
     private IEnumerator MovePlayerRoutine(MapNode targetNode) {
         isMoving = true;
-        mapCanvasGroup.blocksRaycasts = false; // Bloquea clics durante el viaje
+        mapCanvasGroup.blocksRaycasts = false;
 
-        // Obtenemos la posición local del nodo respecto al Content
         Vector2 targetPos = targetNode.GetComponent<RectTransform>().localPosition;
-        // Si el nodo está dentro de una "Sección", sumamos la posición de la sección
         targetPos += (Vector2)targetNode.transform.parent.localPosition;
 
-        // Desplazamiento suave (Lerp)
         while (Vector2.Distance(playerIcon.localPosition, targetPos) > 1f) {
             playerIcon.localPosition = Vector2.MoveTowards(playerIcon.localPosition, targetPos, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
-        playerIcon.localPosition = targetPos; // Ajuste final exacto
-
-        // Esperar 1 segundo para "asentarse"
+        playerIcon.localPosition = targetPos;
         yield return new WaitForSeconds(1f);
 
-        // Al llegar, actualizamos la sección actual
         currentSection = targetNode.sectionIndex;
-        isMoving = false;
+
         mapCanvasGroup.blocksRaycasts = true;
+        isMoving = false;
 
         HandleNodeAction(targetNode);
-        UpdateNodesState();
     }
 
     private void HandleNodeAction(MapNode node) {
         if (node.type == MapNode.NodeType.Reward) {
             rewardPanel.SetActive(true);
-            // IMPORTANTE: Bloqueamos el mapa mientras el panel está abierto
-            mapCanvasGroup.interactable = false;
+            mapCanvasGroup.interactable = false; // Bloquea clics en el mapa
         }
         else if (node.type == MapNode.NodeType.Arena) {
-            Debug.Log("Preparate para pelear...");
-            // Aquí podrías llamar a una función que cambie a la cámara de pelea
+            Debug.Log("Generando nueva arena...");
+            StartCoroutine(PrepareArenaTransition());
         }
     }
 
-    // Activa solo los botones de la siguiente sección
-    public void UpdateNodesState() {
-        // Cambiamos FindObjectsOfType por FindObjectsByType
-        // Usamos FindObjectsSortMode.None porque no nos importa el orden en que los encuentre
-        MapNode[] allNodes = FindObjectsByType<MapNode>(FindObjectsSortMode.None);
+    private IEnumerator PrepareArenaTransition() {
+        // 1. Congelamos el mapa para que no toque nada más
+        mapCanvasGroup.interactable = false;
 
+        // 2. Generamos la nueva arena por detrás de escena
+        EncounterDirector.Instance.GenerateNextArena();
+
+        // 3. Esperamos 1 segundo de "tensión/preparación"
+        yield return new WaitForSeconds(1f);
+
+        // 4. Volvemos a encender el mapa para cuando regrese, pero cambiamos de cámara
+        mapCanvasGroup.interactable = true;
+        GoToArena();
+    }
+
+    public void UpdateNodesState() {
+        MapNode[] allNodes = FindObjectsByType<MapNode>(FindObjectsSortMode.None);
         foreach (MapNode node in allNodes) {
             node.SetInteractable(node.sectionIndex == currentSection + 1);
         }
@@ -85,12 +117,7 @@ public class MapManager : MonoBehaviour {
 
     public void CloseRewardPanel() {
         rewardPanel.SetActive(false);
-
-        // 1. Devolvemos la interacción al mapa
         mapCanvasGroup.interactable = true;
-        mapCanvasGroup.blocksRaycasts = true;
-
-        // 2. FORZAMOS la actualización de los nodos para habilitar el siguiente escalón
         UpdateNodesState();
     }
 }
