@@ -1,40 +1,45 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// --- DEFINICIONES DE TIPOS (Mantenidas de tu código original) ---
 public enum CardEffectType {
     None,
     DealDamage,
     GainBlock,
-    GainAttackBuff // <-- El nuevo efecto para potenciar ataques
-}
-
-[System.Serializable]
-public struct CardEffect {
-    public CardEffectType effectType;
-
-    [Tooltip("Ej: Cantidad de daño, curación, o turnos del buff")]
-    public float value1;
-
-    [Tooltip("Ej: Multiplicador (1.5x) o daño extra del buff")]
-    public float value2;
+    GainAttackBuff
 }
 
 public enum CardBackgroundColor {
     Rojo, Azul, Verde, Naranja, Violeta
 }
 
+[System.Serializable]
+public struct CardEffect {
+    public CardEffectType effectType;
+    public float value1;
+    public float value2;
+
+    [Header("Valores tras Mejora")]
+    public float value1Upgrade; // El valor que tomará value1 si la carta se mejora
+}
+
+// --- EL SCRIPTABLE OBJECT ---
 [CreateAssetMenu(fileName = "NewCard", menuName = "Cards/Card Data")]
 public class CardData : ScriptableObject {
-    [Header("Core Gameplay")]
+    [Header("Core Gameplay Base")]
     public string cardName;
     public int manaCost;
     [TextArea(2, 4)]
     public string description;
-    public bool isTargeted;
 
-    // Añade esta variable donde tengas tus otras variables (daño, costo, etc.)
-    [Header("Tipo de Ataque")]
-    public bool isAoE = false; // Si es true, pegará a todos
+    [Header("Core Gameplay MEJORADO")]
+    public int upgradedManaCost;
+    [TextArea(2, 4)]
+    public string upgradedDescription;
+
+    [Header("Configuración de Ataque")]
+    public bool isTargeted;
+    public bool isAoE = false;
 
     [Header("Visuals")]
     public Sprite artwork;
@@ -42,7 +47,7 @@ public class CardData : ScriptableObject {
 
     [Header("Art Framing (Ajuste para la Máscara)")]
     public Vector2 artOffset;
-    [Range(0.1f, 3f)] // Rango ampliado por si la imagen es muy grande
+    [Range(0.1f, 3f)]
     public float artScale = 1f;
 
     [Header("Acciones de la Carta")]

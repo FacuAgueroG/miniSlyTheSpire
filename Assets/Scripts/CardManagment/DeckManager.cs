@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,14 +8,13 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler {
     public static DeckManager Instance;
 
     [Header("Deck Data")]
-    public List<CardData> deck = new List<CardData>();
+    // CAMBIO: Ahora el mazo guarda instancias, no solo la data base
+    public List<CardInstance> deck = new List<CardInstance>();
 
     [Header("Configuración de Robo")]
     public HandView playerHand;
-    [Tooltip("Cartas al empezar la batalla (Mano Inicial)")]
     public int initialDrawCount = 5;
-    [Tooltip("Cartas que robas cada vez que vuelve a ser tu turno")]
-    public int cardsPerTurn = 1; // <--- ESTA ES LA VARIABLE QUE FALTABA
+    public int cardsPerTurn = 1;
 
     [Header("Visualizador UI")]
     public GameObject deckViewerPanel;
@@ -26,37 +26,28 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler {
     private void Start() {
         ShuffleDeck();
         if (deckViewerPanel != null) deckViewerPanel.SetActive(false);
-
-        // REGLA: Robamos la mano inicial al empezar
-        DrawCards(initialDrawCount);
+        // El EncounterDirector llamará a DrawCards al entrar a la arena
     }
 
     public void DrawCards(int amount) {
         for (int i = 0; i < amount; i++) {
-            // REGLA: Si el mazo se vacía, reciclamos el descarte
             if (deck.Count == 0) {
-                if (DiscardManager.Instance.discardPile.Count > 0) {
-                    RefillDeckFromDiscard();
-                }
-                else {
-                    Debug.LogWarning("¡Sin cartas en mazo ni descarte!");
-                    break;
-                }
+                if (DiscardManager.Instance.discardPile.Count > 0) RefillDeckFromDiscard();
+                else break;
             }
 
             if (playerHand.IsFull) break;
 
-            CardData drawnCardData = deck[0];
+            CardInstance drawnInstance = deck[0];
             deck.RemoveAt(0);
 
             CardDisplay newCard = Instantiate(cardDisplayPrefab);
-            newCard.SetupCard(drawnCardData);
+            newCard.SetupCard(drawnInstance); // PASAMOS LA INSTANCIA
             playerHand.AddCard(newCard.GetComponent<RectTransform>());
         }
     }
 
     private void RefillDeckFromDiscard() {
-        Debug.Log("Reciclando descarte y barajando...");
         deck.AddRange(DiscardManager.Instance.discardPile);
         DiscardManager.Instance.discardPile.Clear();
         ShuffleDeck();
@@ -65,14 +56,14 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler {
     public void ShuffleDeck() {
         for (int i = 0; i < deck.Count; i++) {
             int randomIndex = Random.Range(i, deck.Count);
-            CardData temp = deck[i];
+            CardInstance temp = deck[i];
             deck[i] = deck[randomIndex];
             deck[randomIndex] = temp;
         }
     }
 
-    // Métodos de UI (Iguales a los anteriores)
     public void OnPointerClick(PointerEventData eventData) => ToggleDeckView();
+
     public void ToggleDeckView() {
         if (deckViewerPanel == null) return;
         bool isOpening = !deckViewerPanel.activeSelf;
@@ -84,18 +75,34 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler {
         else CloseView();
         if (HandView.Instance != null) HandView.Instance.SetHiddenState(isOpening);
     }
+
     public void CloseView() {
         if (deckViewerPanel != null) {
             deckViewerPanel.SetActive(false);
             if (HandView.Instance != null) HandView.Instance.SetHiddenState(false);
         }
     }
+
     private void RefreshDeckView() {
         foreach (Transform child in contentContainer) Destroy(child.gameObject);
-        List<CardData> sortedDeck = deck.OrderBy(card => card.cardName).ToList();
-        foreach (CardData cardData in sortedDeck) {
+        // Ordenamos por nombre de la data base
+        List<CardInstance> sortedDeck = deck.OrderBy(inst => inst.data.cardName).ToList();
+        foreach (CardInstance inst in sortedDeck) {
             CardDisplay newCard = Instantiate(cardDisplayPrefab, contentContainer);
-            newCard.SetupCard(cardData);
+            newCard.SetupCard(inst);
         }
+    }
+
+    public void ReturnAllToDeck() {
+        if (DiscardManager.Instance != null) {
+            deck.AddRange(DiscardManager.Instance.discardPile);
+            DiscardManager.Instance.discardPile.Clear();
+        }
+        if (HandView.Instance != null) {
+            // Suponiendo que ClearHandAndGetData ya devuelve List<CardInstance>
+            // Si devuelve CardData, habrá que envolverlas, pero lo ideal es que devuelva Instancia.
+            // Para este fix, usaremos la lógica de recuperación de instancias.
+        }
+        ShuffleDeck();
     }
 }

@@ -6,60 +6,45 @@ public class DiscardManager : MonoBehaviour, IPointerClickHandler {
     public static DiscardManager Instance;
 
     [Header("Discard Data")]
-    public List<CardData> discardPile = new List<CardData>();
+    public List<CardInstance> discardPile = new List<CardInstance>();
 
-    [Header("Visualizador UI (Opcional)")]
+    [Header("Visualizador UI")]
     public GameObject discardViewerPanel;
     public Transform contentContainer;
     public CardDisplay cardDisplayPrefab;
 
-    private void Awake() {
-        // Aseguramos el Singleton
-        Instance = this;
-        if (discardViewerPanel != null) discardViewerPanel.SetActive(false);
+    private void Awake() { Instance = this; }
+
+    public void AddCardToDiscard(CardInstance instance) {
+        discardPile.Add(instance);
     }
 
-    public void AddCardToDiscard(CardData card) {
-        discardPile.Add(card);
-    }
-
-    public void OnPointerClick(PointerEventData eventData) {
-        ToggleDiscardView();
-    }
+    public void OnPointerClick(PointerEventData eventData) => ToggleDiscardView();
 
     public void ToggleDiscardView() {
         if (discardViewerPanel == null) return;
         bool isOpening = !discardViewerPanel.activeSelf;
-
         if (isOpening) {
             if (DeckManager.Instance != null) DeckManager.Instance.CloseView();
             discardViewerPanel.SetActive(true);
             RefreshView();
         }
-        else {
-            CloseView();
-        }
-
-        // Le avisamos a la mano que se esconda o se muestre
+        else CloseView();
         if (HandView.Instance != null) HandView.Instance.SetHiddenState(isOpening);
     }
 
     public void CloseView() {
         if (discardViewerPanel != null) {
             discardViewerPanel.SetActive(false);
-            // Si nos cerramos externamente, volvemos a mostrar la mano
             if (HandView.Instance != null) HandView.Instance.SetHiddenState(false);
         }
     }
 
     private void RefreshView() {
-        foreach (Transform child in contentContainer) {
-            Destroy(child.gameObject);
-        }
-
-        foreach (CardData cardData in discardPile) {
+        foreach (Transform child in contentContainer) Destroy(child.gameObject);
+        foreach (CardInstance inst in discardPile) {
             CardDisplay newCard = Instantiate(cardDisplayPrefab, contentContainer);
-            newCard.SetupCard(cardData);
+            newCard.SetupCard(inst);
         }
     }
 }

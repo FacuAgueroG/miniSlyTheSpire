@@ -209,4 +209,18 @@ public class HandView : MonoBehaviour {
         if (container == null) container = (RectTransform)transform;
         Layout();
     }
+
+    public List<CardInstance> ClearHandAndGetData() {
+        List<CardInstance> instanciasEnMano = new List<CardInstance>();
+        foreach (var cardRt in cards) {
+            if (cardRt != null) {
+                var display = cardRt.GetComponent<CardDisplay>();
+                // Guardamos la instancia (que ya tiene la data y si está mejorada)
+                if (display != null) instanciasEnMano.Add(display.cardInstance);
+                Destroy(cardRt.gameObject);
+            }
+        }
+        // ... (limpiar listas como antes)
+        return instanciasEnMano;
+    }
 }

@@ -15,7 +15,10 @@ MonoBehaviour:
   cardName: Sword of destiny
   manaCost: 3
   description: Cause [v1] of damage
+  upgradedManaCost: 3
+  upgradedDescription: Cause [v1] of damage
   isTargeted: 1
+  isAoE: 0
   artwork: {fileID: 21300000, guid: 3e5a054685dfc714199dfca0064f722b, type: 3}
   backgroundColor: 0
   artOffset: {x: 1.64, y: -34.84}
@@ -24,3 +27,4 @@ MonoBehaviour:
   - effectType: 1
     value1: 5
     value2: 0
+    value1Upgrade: 7

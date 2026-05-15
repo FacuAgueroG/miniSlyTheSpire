@@ -38,14 +38,22 @@ public class BattleManager : MonoBehaviour {
         currentEnemyIndexInRound = 0;
     }
 
-    public void StartPlayerTurn() {
-        if (currentEnemyIndexInRound >= turnOrder.Count) DetermineEnemyOrder();
+    public void StartPlayerTurn(bool isFirstTurn = false) {
+        if (currentEnemyIndexInRound >= turnOrder.Count) {
+            DetermineEnemyOrder();
+        }
+
         currentState = BattleState.PlayerTurn;
         player.OnTurnStarted();
         player.ClearBlock();
         player.SetTurnVisual(true);
+
         ManaManager.Instance.ResetMana();
-        DeckManager.Instance.DrawCards(DeckManager.Instance.cardsPerTurn);
+
+        // Si es el primer turno de la batalla, robamos la mano inicial (5)
+        // Si no, robamos lo normal por turno (1)
+        int cantidadARobar = isFirstTurn ? DeckManager.Instance.initialDrawCount : DeckManager.Instance.cardsPerTurn;
+        DeckManager.Instance.DrawCards(cantidadARobar);
     }
 
     public void OnEndTurnButton() {
@@ -94,6 +102,15 @@ public class BattleManager : MonoBehaviour {
 
     private IEnumerator EndBattleTransition() {
         yield return new WaitForSeconds(1.5f);
-        if (MapManager.Instance != null) MapManager.Instance.GoToMap();
+
+        // 1. Limpiamos mano y descarte antes de ir al mapa
+        if (DeckManager.Instance != null) {
+            DeckManager.Instance.ReturnAllToDeck();
+        }
+
+        // 2. Volvemos al mapa
+        if (MapManager.Instance != null) {
+            MapManager.Instance.GoToMap();
+        }
     }
 }

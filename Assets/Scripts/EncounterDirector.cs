@@ -126,7 +126,8 @@ public class EncounterDirector : MonoBehaviour {
         if (arenaText != null) arenaText.text = "Arena: " + currentArena;
 
         BattleManager.Instance.DetermineEnemyOrder();
-        BattleManager.Instance.StartPlayerTurn();
+
+        BattleManager.Instance.StartPlayerTurn(true);
     }
 
     private ArenaTier GetConfigForLevel(int level) {

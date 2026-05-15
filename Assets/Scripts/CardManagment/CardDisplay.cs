@@ -15,38 +15,38 @@ public class CardDisplay : MonoBehaviour {
     public Image artworkImage;
     public Image backgroundImage;
 
-    public void SetupCard(CardData newData) {
-        cardData = newData;
+    public CardInstance cardInstance;
 
-        // 1. Mapear textos básicos
-        if (nameText != null) nameText.text = cardData.cardName;
-        if (manaText != null) manaText.text = cardData.manaCost.ToString();
+    public void SetupCard(CardInstance newInstance) {
+        cardInstance = newInstance;
+        CardData data = cardInstance.data;
 
-        // --- INYECCIÓN DINÁMICA DE DESCRIPCIÓN (NUEVO) ---
-        if (descriptionText != null) {
-            string finalDescription = cardData.description;
+        // Nombre con "+" si está mejorada
+        nameText.text = data.cardName + (cardInstance.isUpgraded ? "+" : "");
 
-            // Si la carta tiene al menos un efecto, inyectamos el valor en [v1]
-            if (cardData.effects != null && cardData.effects.Count > 0) {
-                // Reemplazamos [v1] por el valor real. 
-                // Usamos <b></b> para que el número resalte en negrita (opcional)
-                finalDescription = finalDescription.Replace("[v1]", "<b>" + cardData.effects[0].value1.ToString() + "</b>");
-            }
+        // Costo y descripción automáticos desde la instancia
+        manaText.text = cardInstance.GetManaCost().ToString();
+        descriptionText.text = cardInstance.GetDescription();
 
-            descriptionText.text = finalDescription;
+        // Arte (se mantiene igual, ya que el arte no cambia con la mejora)
+        if (data.artwork != null && artworkImage != null) {
+            artworkImage.sprite = data.artwork;
+            artworkImage.rectTransform.anchoredPosition = data.artOffset;
+            artworkImage.rectTransform.localScale = Vector3.one * data.artScale;
         }
 
-        // 2. Mapear arte y aplicar Framing (TU LÓGICA ORIGINAL)
-        if (cardData.artwork != null && artworkImage != null) {
-            artworkImage.sprite = cardData.artwork;
+        ApplyBackgroundColor(data.backgroundColor);
+    }
 
-            // Movemos y escalamos la imagen en tiempo real según el ScriptableObject
-            artworkImage.rectTransform.anchoredPosition = cardData.artOffset;
-            artworkImage.rectTransform.localScale = Vector3.one * cardData.artScale;
+    private void ApplyBackgroundColor(CardBackgroundColor color) {
+        if (backgroundImage == null) return;
+        switch (color) {
+            case CardBackgroundColor.Rojo: backgroundImage.color = new Color(0.8f, 0.2f, 0.2f); break;
+            case CardBackgroundColor.Azul: backgroundImage.color = new Color(0.2f, 0.4f, 0.8f); break;
+            case CardBackgroundColor.Verde: backgroundImage.color = new Color(0.2f, 0.8f, 0.3f); break;
+            case CardBackgroundColor.Naranja: backgroundImage.color = new Color(0.9f, 0.6f, 0.1f); break;
+            case CardBackgroundColor.Violeta: backgroundImage.color = new Color(0.6f, 0.2f, 0.8f); break;
         }
-
-        // 3. Aplicar color de fondo (TU LÓGICA ORIGINAL)
-        ApplyBackgroundColor();
     }
 
     private void ApplyBackgroundColor() {
@@ -74,12 +74,12 @@ public class CardDisplay : MonoBehaviour {
         }
     }
 
-    // 4. El motor de actualización en tiempo real para el modo Edición
 #if UNITY_EDITOR
     void Update() {
-        // Solo actualizamos frame a frame si NO estamos en Play Mode y la carta tiene datos
         if (!Application.isPlaying && cardData != null) {
-            SetupCard(cardData);
+            // Creamos una instancia "fantasma" solo para previsualizar en el editor
+            CardInstance tempInst = new CardInstance(cardData);
+            SetupCard(tempInst);
         }
     }
 #endif
