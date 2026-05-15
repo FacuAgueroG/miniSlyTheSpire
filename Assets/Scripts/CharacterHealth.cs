@@ -41,7 +41,15 @@ public class CharacterHealth : MonoBehaviour {
     public List<GameObject> extraVisuals; // Arrastra aquí la barra de vida, iconos, etc que estén sueltos
 
     private void Die() {
+        // 1. Desactivamos visuales
         foreach (var obj in extraVisuals) obj.SetActive(false);
+
+        // 2. AVISAMOS AL MANAGER: "Oye, alguien murió, revisa si ya gané"
+        if (BattleManager.Instance != null) {
+            BattleManager.Instance.CheckBattleOver();
+        }
+
+        // 3. El objeto se apaga
         gameObject.SetActive(false);
     }
 

@@ -15,8 +15,10 @@ MonoBehaviour:
   cardName: Shield of fire
   manaCost: 3
   description: Deal [v1] damage
+  isTargeted: 0
+  isAoE: 0
   artwork: {fileID: 21300000, guid: 3e5a054685dfc714199dfca0064f722b, type: 3}
-  backgroundColor: 4
+  backgroundColor: 3
   artOffset: {x: 1.64, y: -34.84}
   artScale: 1.86
   effects:

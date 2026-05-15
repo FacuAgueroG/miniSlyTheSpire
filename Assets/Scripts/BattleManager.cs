@@ -124,4 +124,17 @@ public class BattleManager : MonoBehaviour {
 
         StartPlayerTurn();
     }
+
+    public void CheckBattleOver()
+{
+    // Verificamos si todos los enemigos en la lista están muertos
+    bool allDead = allEnemies.All(e => e == null || e.GetComponent<CharacterHealth>().currentHealth <= 0);
+
+    if (allDead)
+    {
+        Debug.Log("¡Victoria! Arena completada.");
+        // Buscamos el director para activar su botón
+        FindFirstObjectByType<EncounterDirector>().nextArenaButton.SetActive(true);
+    }
+}
 }
